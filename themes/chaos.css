@@ -1,0 +1,15 @@
+/* Chaos Pathway — independent theme.
+   Edit the variables; the shared layout remains unchanged. */
+:root {
+  --accent: #ba62ac;
+  --text: #f6dbf2;
+  --body-text: #c9c6c0;
+  --background: #160c1c;
+  --panel: #15171c;
+  --panel-border: #51244e;
+  --font-display: "Georgia";
+  --font-body: "Arial";
+  --pattern: shards;
+  --ornament-opacity: 0.68;
+  --portrait-overlay: 0.12;
+}

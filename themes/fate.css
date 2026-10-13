@@ -1,0 +1,15 @@
+/* Fate Pathway — independent theme.
+   Edit the variables; the shared layout remains unchanged. */
+:root {
+  --accent: #d3a76c;
+  --text: #f6ead7;
+  --body-text: #c9c6c0;
+  --background: #18131a;
+  --panel: #15171c;
+  --panel-border: #594338;
+  --font-display: "Georgia";
+  --font-body: "Georgia";
+  --pattern: lattice;
+  --ornament-opacity: 0.68;
+  --portrait-overlay: 0.12;
+}

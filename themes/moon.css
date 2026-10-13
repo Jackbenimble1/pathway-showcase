@@ -1,0 +1,15 @@
+/* Moon Pathway — independent theme.
+   Edit the variables; the shared layout remains unchanged. */
+:root {
+  --accent: #c5a3d6;
+  --text: #f2e7f8;
+  --body-text: #c9c6c0;
+  --background: #12101c;
+  --panel: #15171c;
+  --panel-border: #473351;
+  --font-display: "Georgia";
+  --font-body: "Georgia";
+  --pattern: rings;
+  --ornament-opacity: 0.68;
+  --portrait-overlay: 0.12;
+}

@@ -1,0 +1,15 @@
+/* Warden Pathway — independent theme.
+   Edit the variables; the shared layout remains unchanged. */
+:root {
+  --accent: #ad8195;
+  --text: #f6e9ef;
+  --body-text: #c9c6c0;
+  --background: #150d14;
+  --panel: #15171c;
+  --panel-border: #4c2b3d;
+  --font-display: "Georgia";
+  --font-body: "Trebuchet MS";
+  --pattern: rings;
+  --ornament-opacity: 0.68;
+  --portrait-overlay: 0.12;
+}

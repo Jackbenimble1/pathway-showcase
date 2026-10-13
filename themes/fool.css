@@ -1,0 +1,15 @@
+/* Fool Pathway — independent theme.
+   Edit the variables; the shared layout remains unchanged. */
+:root {
+  --accent: #caae89;
+  --text: #f5e6ce;
+  --body-text: #c9c6c0;
+  --background: #18131a;
+  --panel: #15171c;
+  --panel-border: #57434b;
+  --font-display: "Georgia";
+  --font-body: "Georgia";
+  --pattern: lattice;
+  --ornament-opacity: 0.68;
+  --portrait-overlay: 0.12;
+}

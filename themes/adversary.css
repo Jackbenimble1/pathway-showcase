@@ -1,0 +1,15 @@
+/* Adversary Pathway — independent theme.
+   Edit the variables; the shared layout remains unchanged. */
+:root {
+  --accent: #c45d54;
+  --text: #f3d9d1;
+  --body-text: #c9c6c0;
+  --background: #1b0b0f;
+  --panel: #15171c;
+  --panel-border: #5c2428;
+  --font-display: "Impact";
+  --font-body: "Arial";
+  --pattern: shards;
+  --ornament-opacity: 0.68;
+  --portrait-overlay: 0.12;
+}

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark">
+  <title>Pathway Showcase · Editor</title>
+  <link rel="stylesheet" href="editor.css">
+  <style id="active-theme"></style>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <div class="workspace">
+    <header class="topbar">
+      <div class="brand"><div class="brand-mark">✧</div><div><strong>PATHWAY SHOWCASE</strong><small>Campaign visual editor</small></div></div>
+      <div class="top-actions">
+        <span class="save-state" id="save-state" aria-live="polite">Loading…</span>
+        <button id="download-json" class="btn ghost" type="button">Export JSON</button>
+        <button id="import-json" class="btn ghost" type="button">Import JSON</button>
+        <button id="download-png" class="btn primary" type="button">Download PNG <span aria-hidden="true">↓</span></button>
+      </div>
+    </header>
+    <main class="layout">
+      <aside class="editor" aria-label="Pathway editor">
+        <div class="editor-inner">
+          <div class="panel-intro"><span class="eyebrow">EDITING</span><h1>Pathway details</h1><p>Everything on this page is player-facing. Only enter material you're comfortable revealing.</p></div>
+          <div class="field"><label for="pathway-select">Selected pathway</label><select id="pathway-select"></select></div>
+          <div class="button-row"><button id="reload-published" class="btn ghost tiny" type="button">Discard local edits and reload published version</button></div>
+          <details open class="edit-group"><summary>Identification <span>01</span></summary><div class="group-fields">
+            <div class="field"><label for="display-name">Display title</label><input id="display-name" maxlength="48" placeholder="SUN"></div>
+            <div class="field"><label for="kicker">Small heading</label><input id="kicker" maxlength="65" placeholder="A PATH OF LIGHT"></div>
+            <div class="field"><label for="tags">Descriptors <small>separate with commas</small></label><input id="tags" placeholder="Light, Purification, Order"></div>
+            <div class="field"><label for="summary">Overview <small>brief, non-spoiler</small></label><textarea id="summary" rows="5" placeholder="What a new practitioner should know..."></textarea></div>
+            <div class="field"><label for="quote">Short line / quotation</label><textarea id="quote" rows="2" placeholder="A short statement to accompany the portrait"></textarea></div>
+            <div class="field"><label for="role-tags">Portrait-side labels <small>separate with commas</small></label><input id="role-tags" placeholder="Radiance, Purification, Resolve"></div>
+          </div></details>
+          <details open class="edit-group"><summary>Featured abilities <span>02</span></summary><div class="group-fields"><p class="group-hint">Four highlights, not the full sequence progression. These are blank until you write them.</p><div id="abilities-editor"></div></div></details>
+          <details open class="edit-group"><summary>Character artwork <span>03</span></summary><div class="group-fields">
+            <div class="upload-zone"><input type="file" id="image-upload" accept="image/png,image/jpeg,image/webp"><label for="image-upload"><span class="upload-icon">↥</span><strong>Choose artwork</strong><small>PNG, JPG or WebP; stored locally in this browser</small></label></div>
+            <div class="field"><label for="image-scale">Zoom <output id="image-scale-value"></output></label><input type="range" id="image-scale" min="0.5" max="2.5" step="0.01" value="1"></div>
+            <div class="field"><label for="image-x">Move horizontally <output id="image-x-value"></output></label><input type="range" id="image-x" min="-550" max="550" step="5" value="0"></div>
+            <div class="field"><label for="image-y">Move vertically <output id="image-y-value"></output></label><input type="range" id="image-y" min="-400" max="400" step="5" value="0"></div>
+            <div class="button-row"><button id="image-reset" type="button" class="btn ghost tiny">Reset placement</button><button id="image-remove" type="button" class="btn ghost tiny">Remove image</button></div>
+          </div></details>
+          <details class="edit-group"><summary>Pathway CSS <span>04</span></summary><div class="group-fields">
+            <p class="group-hint">Each pathway loads its own file from <code>themes/</code>. Edits here affect only the selected pathway and are saved in your browser.</p>
+            <div class="field"><label for="theme-css">CSS variables</label><textarea id="theme-css" rows="16" spellcheck="false" class="code-input"></textarea></div>
+            <div class="button-row"><button id="download-theme" type="button" class="btn ghost tiny">Download CSS</button><button id="reset-theme" type="button" class="btn ghost tiny">Restore bundled theme</button></div>
+          </div></details>
+          <div class="bottom-note">Local changes aren't published to GitHub automatically. Export JSON or CSS to keep a portable copy.</div>
+        </div>
+      </aside>
+      <section class="preview-pane" aria-label="Live preview">
+        <div class="preview-head"><div><span class="eyebrow">LIVE PREVIEW</span><h2 id="preview-heading">SUN PATHWAY</h2></div><div class="preview-meta"><span>16 : 9</span><span>1600 × 900</span></div></div>
+        <div class="preview-wrap"><canvas id="preview" width="1600" height="900" role="img" aria-label="Editable pathway splash page preview"></canvas></div>
+        <div class="preview-foot"><div class="info-note"><span class="dot"></span> Artwork and text are baked into the PNG export.</div><div class="export-select"><label for="export-scale">Export size</label><select id="export-scale"><option value="1">1600 × 900</option><option value="2" selected>3200 × 1800</option><option value="3">4800 × 2700</option></select></div></div>
+        <div id="notice" class="notice" role="status" aria-live="polite"></div>
+      </section>
+    </main>
+  </div>
+  <input type="file" id="json-file" accept="application/json,.json" hidden>
+</body>
+</html>

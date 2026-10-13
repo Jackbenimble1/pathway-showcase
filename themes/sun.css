@@ -1,0 +1,15 @@
+/* Sun Pathway — independent theme.
+   Edit the variables; the shared layout remains unchanged. */
+:root {
+  --accent: #d9a24f;
+  --text: #fff0d7;
+  --body-text: #c9c6c0;
+  --background: #101114;
+  --panel: #15171c;
+  --panel-border: #564026;
+  --font-display: "Georgia";
+  --font-body: "Georgia";
+  --pattern: rays;
+  --ornament-opacity: 0.68;
+  --portrait-overlay: 0.12;
+}

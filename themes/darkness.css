@@ -1,0 +1,15 @@
+/* Darkness Pathway — independent theme.
+   Edit the variables; the shared layout remains unchanged. */
+:root {
+  --accent: #8079bb;
+  --text: #e3dff5;
+  --body-text: #c9c6c0;
+  --background: #0d1020;
+  --panel: #15171c;
+  --panel-border: #35305e;
+  --font-display: "Georgia";
+  --font-body: "Arial";
+  --pattern: shards;
+  --ornament-opacity: 0.68;
+  --portrait-overlay: 0.12;
+}

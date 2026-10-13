@@ -1,0 +1,15 @@
+/* Hermit Pathway — independent theme.
+   Edit the variables; the shared layout remains unchanged. */
+:root {
+  --accent: #b995d5;
+  --text: #e5d9ee;
+  --body-text: #c9c6c0;
+  --background: #100e1a;
+  --panel: #15171c;
+  --panel-border: #322944;
+  --font-display: "Georgia";
+  --font-body: "Georgia";
+  --pattern: lattice;
+  --ornament-opacity: 0.68;
+  --portrait-overlay: 0.12;
+}

@@ -1,0 +1,15 @@
+/* Struggler Pathway — independent theme.
+   Edit the variables; the shared layout remains unchanged. */
+:root {
+  --accent: #d3703a;
+  --text: #f6e0ca;
+  --body-text: #c9c6c0;
+  --background: #21120b;
+  --panel: #15171c;
+  --panel-border: #5b3020;
+  --font-display: "Impact";
+  --font-body: "Trebuchet MS";
+  --pattern: rays;
+  --ornament-opacity: 0.68;
+  --portrait-overlay: 0.12;
+}

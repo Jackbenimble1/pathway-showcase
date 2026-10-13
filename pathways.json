@@ -1,0 +1,164 @@
+[
+  {
+    "id": "hermit",
+    "name": "Hermit",
+    "theme": "themes/hermit.css",
+    "focus": "Mysticism / Secrets"
+  },
+  {
+    "id": "paragon",
+    "name": "Paragon",
+    "theme": "themes/paragon.css",
+    "focus": "Machinery / Knowledge"
+  },
+  {
+    "id": "consultant",
+    "name": "Consultant",
+    "theme": "themes/consultant.css",
+    "focus": "Mind / Influence"
+  },
+  {
+    "id": "hanged-man",
+    "name": "Hanged Man",
+    "theme": "themes/hanged-man.css",
+    "focus": "Shadow / Sacrifice"
+  },
+  {
+    "id": "adversary",
+    "name": "Adversary",
+    "theme": "themes/adversary.css",
+    "focus": "Desire / Corruption"
+  },
+  {
+    "id": "warden",
+    "name": "Warden",
+    "theme": "themes/warden.css",
+    "focus": "Curses / Binding"
+  },
+  {
+    "id": "chaos",
+    "name": "Chaos",
+    "theme": "themes/chaos.css",
+    "focus": "Chaos / Change"
+  },
+  {
+    "id": "struggler",
+    "name": "Struggler",
+    "theme": "themes/struggler.css",
+    "focus": "War / Conquest"
+  },
+  {
+    "id": "door",
+    "name": "Door",
+    "theme": "themes/door.css",
+    "focus": "Space / Travel"
+  },
+  {
+    "id": "fool",
+    "name": "Fool",
+    "theme": "themes/fool.css",
+    "focus": "Illusions / Wishes"
+  },
+  {
+    "id": "error",
+    "name": "Error",
+    "theme": "themes/error.css",
+    "focus": "Theft / Loopholes"
+  },
+  {
+    "id": "sun",
+    "name": "Sun",
+    "theme": "themes/sun.css",
+    "focus": "Light / Purification / Order"
+  },
+  {
+    "id": "white-tower",
+    "name": "White Tower",
+    "theme": "themes/white-tower.css",
+    "focus": "Learning / Analysis"
+  },
+  {
+    "id": "tail-devourer",
+    "name": "Tail-Devourer",
+    "theme": "themes/tail-devourer.css",
+    "focus": "Hunger / Convergence"
+  },
+  {
+    "id": "justiciar",
+    "name": "Justiciar",
+    "theme": "themes/justiciar.css",
+    "focus": "Law / Judgment"
+  },
+  {
+    "id": "stellarch",
+    "name": "Stellarch",
+    "theme": "themes/stellarch.css",
+    "focus": "Distorted Order"
+  },
+  {
+    "id": "death",
+    "name": "Death",
+    "theme": "themes/death.css",
+    "focus": "Spirits / Underworld"
+  },
+  {
+    "id": "darkness",
+    "name": "Darkness",
+    "theme": "themes/darkness.css",
+    "focus": "Dreams / Nightmares"
+  },
+  {
+    "id": "wheel-of-fortune",
+    "name": "Wheel of Fortune",
+    "theme": "themes/wheel-of-fortune.css",
+    "focus": "Luck / Probability"
+  },
+  {
+    "id": "gaia",
+    "name": "Gaia",
+    "theme": "themes/gaia.css",
+    "focus": "Nature / Healing"
+  },
+  {
+    "id": "moon",
+    "name": "Moon",
+    "theme": "themes/moon.css",
+    "focus": "Moon / Vampirism"
+  },
+  {
+    "id": "force",
+    "name": "Force",
+    "theme": "themes/force.css",
+    "focus": "Force / Gravity"
+  },
+  {
+    "id": "entropic-principle",
+    "name": "Entropic Principle",
+    "theme": "themes/entropic-principle.css",
+    "focus": "Combat / Entropy"
+  },
+  {
+    "id": "second-law",
+    "name": "Second Law",
+    "theme": "themes/second-law.css",
+    "focus": "Disease / Decay"
+  },
+  {
+    "id": "father-time",
+    "name": "Father Time",
+    "theme": "themes/father-time.css",
+    "focus": "Time / Cycles"
+  },
+  {
+    "id": "fate",
+    "name": "Fate",
+    "theme": "themes/fate.css",
+    "focus": "Fate / Judgment"
+  },
+  {
+    "id": "yellow-king",
+    "name": "Yellow King",
+    "theme": "themes/yellow-king.css",
+    "focus": "Art / Horror / Truth"
+  }
+]

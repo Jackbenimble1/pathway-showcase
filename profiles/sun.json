@@ -1,0 +1,48 @@
+{
+  "format": "pathway-showcase",
+  "version": 1,
+  "pathway": "sun",
+  "profile": {
+    "pathway": "sun",
+    "title": "SUN",
+    "kicker": "PATHWAY PREVIEW",
+    "tags": [
+      "LIGHT",
+      "PURIFICATION",
+      "ORDER"
+    ],
+    "summary": "Enter a brief, player-facing overview of this pathway. Avoid revealing later sequences, concealed authorities, or story secrets.",
+    "quote": "Add a short pathway quotation.",
+    "roleTags": [
+      "PRACTITIONER",
+      "PATHWAY",
+      "PREVIEW"
+    ],
+    "abilities": [
+      {
+        "title": "ABILITY ONE",
+        "description": "Describe a non-spoiler ability or characteristic here.",
+        "icon": "sun"
+      },
+      {
+        "title": "ABILITY TWO",
+        "description": "Describe a non-spoiler ability or characteristic here.",
+        "icon": "star"
+      },
+      {
+        "title": "ABILITY THREE",
+        "description": "Describe a non-spoiler ability or characteristic here.",
+        "icon": "shield"
+      },
+      {
+        "title": "ABILITY FOUR",
+        "description": "Describe a non-spoiler ability or characteristic here.",
+        "icon": "eye"
+      }
+    ],
+    "image": "assets/sun-iconic.png",
+    "scale": 1,
+    "panX": 0,
+    "panY": 0
+  }
+}

@@ -1,0 +1,15 @@
+/* Father Time Pathway — independent theme.
+   Edit the variables; the shared layout remains unchanged. */
+:root {
+  --accent: #bda5e5;
+  --text: #eee5f9;
+  --body-text: #c9c6c0;
+  --background: #151020;
+  --panel: #15171c;
+  --panel-border: #45345c;
+  --font-display: "Georgia";
+  --font-body: "Georgia";
+  --pattern: rings;
+  --ornament-opacity: 0.68;
+  --portrait-overlay: 0.12;
+}

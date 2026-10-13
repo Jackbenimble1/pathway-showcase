@@ -1,0 +1,15 @@
+/* Yellow King Pathway — independent theme.
+   Edit the variables; the shared layout remains unchanged. */
+:root {
+  --accent: #cbb366;
+  --text: #f2e6c7;
+  --body-text: #c9c6c0;
+  --background: #17130e;
+  --panel: #15171c;
+  --panel-border: #51422a;
+  --font-display: "Georgia";
+  --font-body: "Georgia";
+  --pattern: shards;
+  --ornament-opacity: 0.68;
+  --portrait-overlay: 0.12;
+}

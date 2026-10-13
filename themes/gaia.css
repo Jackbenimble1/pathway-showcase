@@ -1,0 +1,15 @@
+/* Gaia Pathway — independent theme.
+   Edit the variables; the shared layout remains unchanged. */
+:root {
+  --accent: #84b390;
+  --text: #e5f0e3;
+  --body-text: #c9c6c0;
+  --background: #111a12;
+  --panel: #15171c;
+  --panel-border: #3b5836;
+  --font-display: "Georgia";
+  --font-body: "Georgia";
+  --pattern: rays;
+  --ornament-opacity: 0.68;
+  --portrait-overlay: 0.12;
+}

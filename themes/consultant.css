@@ -1,0 +1,15 @@
+/* Consultant Pathway — independent theme.
+   Edit the variables; the shared layout remains unchanged. */
+:root {
+  --accent: #81b4c4;
+  --text: #e6f1f3;
+  --body-text: #c9c6c0;
+  --background: #111a21;
+  --panel: #15171c;
+  --panel-border: #294857;
+  --font-display: "Georgia";
+  --font-body: "Arial";
+  --pattern: rings;
+  --ornament-opacity: 0.68;
+  --portrait-overlay: 0.12;
+}

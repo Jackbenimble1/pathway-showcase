@@ -1,0 +1,15 @@
+/* Error Pathway — independent theme.
+   Edit the variables; the shared layout remains unchanged. */
+:root {
+  --accent: #83d6b8;
+  --text: #e3f8f1;
+  --body-text: #c9c6c0;
+  --background: #0c1715;
+  --panel: #15171c;
+  --panel-border: #285947;
+  --font-display: "Trebuchet MS";
+  --font-body: "Arial";
+  --pattern: grid;
+  --ornament-opacity: 0.68;
+  --portrait-overlay: 0.12;
+}

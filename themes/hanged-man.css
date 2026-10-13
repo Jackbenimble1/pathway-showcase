@@ -1,0 +1,15 @@
+/* Hanged Man Pathway — independent theme.
+   Edit the variables; the shared layout remains unchanged. */
+:root {
+  --accent: #a19ca9;
+  --text: #eee8f2;
+  --body-text: #c9c6c0;
+  --background: #100d17;
+  --panel: #15171c;
+  --panel-border: #453849;
+  --font-display: "Georgia";
+  --font-body: "Georgia";
+  --pattern: shards;
+  --ornament-opacity: 0.68;
+  --portrait-overlay: 0.12;
+}

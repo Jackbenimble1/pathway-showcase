@@ -1,0 +1,15 @@
+/* Justiciar Pathway — independent theme.
+   Edit the variables; the shared layout remains unchanged. */
+:root {
+  --accent: #b9b9bd;
+  --text: #f1f1f4;
+  --body-text: #c9c6c0;
+  --background: #12151b;
+  --panel: #15171c;
+  --panel-border: #474b54;
+  --font-display: "Georgia";
+  --font-body: "Trebuchet MS";
+  --pattern: grid;
+  --ornament-opacity: 0.68;
+  --portrait-overlay: 0.12;
+}

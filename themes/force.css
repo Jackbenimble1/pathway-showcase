@@ -1,0 +1,15 @@
+/* Force Pathway — independent theme.
+   Edit the variables; the shared layout remains unchanged. */
+:root {
+  --accent: #74b4c4;
+  --text: #ebf8fa;
+  --body-text: #c9c6c0;
+  --background: #0b1720;
+  --panel: #15171c;
+  --panel-border: #255460;
+  --font-display: "Trebuchet MS";
+  --font-body: "Arial";
+  --pattern: waves;
+  --ornament-opacity: 0.68;
+  --portrait-overlay: 0.12;
+}

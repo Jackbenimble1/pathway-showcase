@@ -1,0 +1,15 @@
+/* White Tower Pathway — independent theme.
+   Edit the variables; the shared layout remains unchanged. */
+:root {
+  --accent: #a1bfd7;
+  --text: #ecf4fa;
+  --body-text: #c9c6c0;
+  --background: #131a23;
+  --panel: #15171c;
+  --panel-border: #304857;
+  --font-display: "Georgia";
+  --font-body: "Arial";
+  --pattern: grid;
+  --ornament-opacity: 0.68;
+  --portrait-overlay: 0.12;
+}

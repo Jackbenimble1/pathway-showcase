@@ -1,0 +1,15 @@
+/* Death Pathway — independent theme.
+   Edit the variables; the shared layout remains unchanged. */
+:root {
+  --accent: #8c9db2;
+  --text: #e4e8f0;
+  --body-text: #c9c6c0;
+  --background: #0c0e15;
+  --panel: #15171c;
+  --panel-border: #31384b;
+  --font-display: "Georgia";
+  --font-body: "Georgia";
+  --pattern: rings;
+  --ornament-opacity: 0.68;
+  --portrait-overlay: 0.12;
+}
