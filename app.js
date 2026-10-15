@@ -4,7 +4,9 @@ const $ = (id) => document.getElementById(id);
 const canvas = $('preview');
 const themeStyle = $('active-theme');
 const SVG_W = 1600, SVG_H = 900;
-const iconOptions = ['sun', 'star', 'shield', 'eye', 'flame', 'moon', 'orbit', 'shard', 'diamond', 'cross', 'crown', 'wave'];
+const portraitAssets = { sun:'assets/sun-iconic.png', death:'assets/death-iconic.png', door:'assets/door-iconic.png', adversary:'assets/adversary-iconic.png', 'yellow-king':'assets/yellow-king-iconic.png' };
+const glyphCache = new Map();
+const glyphTintCache = new Map();
 let pathways = [];
 let currentPath = null;
 let data = null;
@@ -18,14 +20,56 @@ let modified = false;
 const defaultData = (p) => ({
   pathway: p.id, title: p.name.toUpperCase(),
   kicker: 'PATHWAY PREVIEW',
-  tags: p.id === 'sun' ? ['LIGHT', 'PURIFICATION', 'ORDER'] : [p.focus.split('/')[0].trim().toUpperCase(), 'PATHWAY', 'PRACTICE'],
+  tags: p.id === 'sun' ? ['LIGHT', 'PURIFICATION', 'ORDER'] : p.id==='death' ? ['SPIRITS', 'NECROMANCY', 'DEATH MAGIC'] : [p.focus.split('/')[0].trim().toUpperCase(), 'PATHWAY', 'PRACTICE'],
   summary: 'Enter a brief, player-facing overview of this pathway. Avoid revealing later sequences, concealed authorities, or story secrets.',
   quote: 'Add a short pathway quotation.',
   roleTags: ['PRACTITIONER', 'PATHWAY', 'PREVIEW'],
-  abilities: [1, 2, 3, 4].map((n) => ({ title: `ABILITY ${['ONE','TWO','THREE','FOUR'][n-1]}`, description: 'Describe a non-spoiler ability or characteristic here.', icon: iconOptions[n-1] })),
-  image: p.id === 'sun' ? 'assets/sun-iconic.png' : '',
+  abilities: [1, 2, 3, 4].map((n) => ({ title: `ABILITY ${['ONE','TWO','THREE','FOUR'][n-1]}`, description: 'Describe a non-spoiler ability or characteristic here.' })),
+  infoMode: 'ratings',
+  ratings: [{label:'Power',value:p.id==='death'?4:null},{label:'Flexibility',value:p.id==='death'?2:null},{label:'Complexity',value:p.id==='death'?2:null}],
+  image: portraitAssets[p.id] || '',
   scale: 1, panX: 0, panY: 0,
 });
+
+
+function normalizeProfile(value, p) {
+  const base=defaultData(p);
+  const result={...base,...(value||{}),pathway:p.id};
+  result.ratings=base.ratings.map((rating,i)=>{
+    const r=Array.isArray(value?.ratings)?value.ratings[i]:null;
+    const numeric=(r?.value===null||r?.value===''||r?.value===undefined)?null:Number(r.value);
+    return {label:String(r?.label ?? rating.label),value:Number.isFinite(numeric)?Math.max(0,Math.min(5,Math.round(numeric))):null};
+  });
+  const oldProse=typeof value?.summary==='string' && value.summary.trim() && !value.summary.startsWith('Enter a brief, player-facing overview');
+  result.infoMode=value?.infoMode==='description' || (!value?.infoMode && oldProse)?'description':'ratings';
+  // Existing profiles and local edits take precedence over bundled artwork.
+  if(!result.image && portraitAssets[p.id]) result.image=portraitAssets[p.id];
+  return result;
+}
+async function loadPathwayGlyph(id) {
+  if(glyphCache.has(id)) return glyphCache.get(id);
+  const pending=new Promise(resolve=>{
+    const img=new Image();
+    img.onload=()=>resolve(img);
+    img.onerror=()=>resolve(null);
+    img.src=`assets/pathway-icons/${id}.png`;
+  });
+  glyphCache.set(id,pending);
+  const loaded=await pending;
+  if(loaded) {glyphCache.set(id,loaded);glyphTintCache.clear();if(currentPath?.id===id)paint();}
+  else glyphCache.delete(id);
+  return loaded;
+}
+function tintedGlyph(id,color){
+  const source=glyphCache.get(id);
+  if(!source || !(source instanceof HTMLImageElement))return null;
+  const key=`${id}/${color}`;
+  if(glyphTintCache.has(key))return glyphTintCache.get(key);
+  const c=document.createElement('canvas');c.width=144;c.height=144;
+  const cx=c.getContext('2d');cx.drawImage(source,0,0,144,144);
+  cx.globalCompositeOperation='source-in';cx.fillStyle=color;cx.fillRect(0,0,144,144);
+  glyphTintCache.set(key,c);return c;
+}
 
 async function openDB() {
   if (!window.indexedDB) return null;
@@ -203,9 +247,30 @@ function drawTopPanel(ctx,t){
   const tags=(data.tags||[]).slice(0,3);
   let tx=90;
   tags.forEach((tag)=>{const text=String(tag).toUpperCase().slice(0,28);font(ctx,13,t.bodyFont,'bold');const width=Math.min(193,Math.max(90,ctx.measureText(text).width+26));if(tx+width<730){drawLabelChip(ctx,text,tx,206,width,t);tx+=width+12;}});
-  font(ctx,21,t.bodyFont);
-  const lines=wrapLines(ctx,data.summary||'',622,6);
-  lines.forEach((line,i)=>drawText(ctx,line,93,287+i*27,21,t.body,t.bodyFont));
+  if(data.infoMode==='description') {
+    font(ctx,21,t.bodyFont);
+    const lines=wrapLines(ctx,data.summary||'',622,6);
+    lines.forEach((line,i)=>drawText(ctx,line,93,287+i*27,21,t.body,t.bodyFont));
+  } else drawRatings(ctx,t);
+}
+function drawRatings(ctx,t) {
+  drawText(ctx,'WHAT A NEW PRACTITIONER SHOULD KNOW',94,270,14,t.accent,t.bodyFont,'bold');
+  const rows=Array.isArray(data.ratings)?data.ratings:[];
+  for(let i=0;i<3;i++){
+    const item=rows[i]||{};const label=String(item.label||'ATTRIBUTE').toUpperCase();
+    const baseline=317+i*46;
+    const size=fitFont(ctx,label,230,19,t.bodyFont,'bold',12);
+    drawText(ctx,label,94,baseline,size,t.text,t.bodyFont,'bold');
+    const num=(item.value===null||item.value===''||item.value===undefined)?null:Math.max(0,Math.min(5,Math.round(Number(item.value))));
+    const segmentX=369,segmentW=42,segmentGap=7;
+    for(let n=0;n<5;n++){
+      const x=segmentX+n*(segmentW+segmentGap), y=baseline-19;
+      ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+segmentW-5,y);ctx.lineTo(x+segmentW,y+22);ctx.lineTo(x+5,y+22);ctx.closePath();
+      ctx.fillStyle=num!==null&&n<num?rgba(t.accent,.94):rgba(t.accent,.08);
+      ctx.fill();ctx.strokeStyle=rgba(t.accent,num!==null&&n<num?.96:.43);ctx.lineWidth=1.2;ctx.stroke();
+    }
+    drawText(ctx,num===null?'—/5':`${num}/5`,701,baseline,20,t.accent,t.display,'bold','right');
+  }
 }
 function drawGlyph(ctx,x,y,kind,t){
   ctx.save();ctx.translate(x,y);ctx.strokeStyle=t.text;ctx.fillStyle=t.text;ctx.lineWidth=3;ctx.lineJoin='round';ctx.lineCap='round';
@@ -230,7 +295,8 @@ function drawAbility(ctx,t,ab,i){
   const circleX=right?x+w-18:x+27, circleY=y+44;
   ctx.beginPath();ctx.arc(circleX,circleY,49,0,Math.PI*2);ctx.fillStyle=rgba(t.bg,.99);ctx.fill();ctx.strokeStyle=t.accent;ctx.lineWidth=2;ctx.stroke();
   ctx.beginPath();ctx.arc(circleX,circleY,41,0,7);ctx.strokeStyle=rgba(t.accent,.5);ctx.lineWidth=1;ctx.stroke();
-  drawGlyph(ctx,circleX,circleY,ab?.icon||'star',t);
+  const emblem=tintedGlyph(currentPath?.id||'sun',t.text);
+  if(emblem){ctx.drawImage(emblem,circleX-36,circleY-36,72,72)}else drawGlyph(ctx,circleX,circleY,'sun',t);
   const bodyX=right?x+22:x+108, contentW=right?570:550;
   const title=(ab?.title||`ABILITY ${i+1}`).toUpperCase();const n=String(i+1).padStart(2,'0');
   drawText(ctx,n,bodyX,y+31,20,t.accent,t.bodyFont);
@@ -240,15 +306,15 @@ function drawAbility(ctx,t,ab,i){
   wrapLines(ctx,ab?.description||'',contentW-12,2).forEach((l,j)=>drawText(ctx,l,bodyX,y+55+j*19,17,t.body,t.bodyFont));
 }
 function drawPortraitFooter(ctx,t){
-  const x=850;
+  const x=904;
   const chips=(data.roleTags||[]).slice(0,3).filter(Boolean);
   let cx=x;
   chips.forEach((label)=>{font(ctx,15,t.bodyFont,'bold');const w=Math.min(210,Math.max(110,ctx.measureText(label.toUpperCase()).width+22));roundRect(ctx,cx,756,w,35,1,rgba(t.accent,.91),rgba(t.text,.33));drawText(ctx,label.toUpperCase(),cx+w/2,779,14,t.bg,t.bodyFont,'bold','center');cx+=w+9;});
   const quote=String(data.quote||'').replace(/\s+/g,' ').trim();
-  font(ctx,19,t.display);const lines=wrapLines(ctx,quote,618,2);
+  font(ctx,19,t.display);const lines=wrapLines(ctx,quote,602,2);
   const height=lines.length*25+23;
-  roundRect(ctx,842,806,680,Math.max(56,height),2,'rgba(4,5,8,.72)',rgba(t.accent,.46));
-  lines.forEach((l,i)=>drawText(ctx,l,859,835+i*24,19,t.text,t.display));
+  roundRect(ctx,892,806,654,Math.max(56,height),2,'rgba(4,5,8,.72)',rgba(t.accent,.46));
+  lines.forEach((l,i)=>drawText(ctx,l,908,835+i*24,19,t.text,t.display));
 }
 function drawScene(target,exportScale=1){
   if(!data)return;
@@ -278,10 +344,15 @@ function collectChanges(){
   data.kicker=$('kicker').value;
   data.tags=$('tags').value.split(',').map(x=>x.trim()).filter(Boolean).slice(0,3);
   data.summary=$('summary').value;
+  data.infoMode=$('info-mode').value;
+  data.ratings=[...document.querySelectorAll('.rating-editor')].map(el=>({
+    label:el.querySelector('[data-rating=label]').value,
+    value:el.querySelector('[data-rating=value]').value===''?null:Math.max(0,Math.min(5,Math.round(Number(el.querySelector('[data-rating=value]').value))))
+  }));
   data.quote=$('quote').value;
   data.roleTags=$('role-tags').value.split(',').map(x=>x.trim()).filter(Boolean).slice(0,3);
   data.scale=Number($('image-scale').value);data.panX=Number($('image-x').value);data.panY=Number($('image-y').value);
-  data.abilities=[...document.querySelectorAll('.ability-editor')].map((el)=>({title:el.querySelector('[data-ability="title"]').value,description:el.querySelector('[data-ability="description"]').value,icon:el.querySelector('[data-ability="icon"]').value}));
+  data.abilities=[...document.querySelectorAll('.ability-editor')].map((el)=>({title:el.querySelector('[data-ability="title"]').value,description:el.querySelector('[data-ability="description"]').value}));
   $('image-scale-value').textContent=`${data.scale.toFixed(2)}×`;
   $('image-x-value').textContent=`${data.panX}px`;
   $('image-y-value').textContent=`${data.panY}px`;
@@ -291,13 +362,12 @@ function collectChanges(){
 function initAbilities(){
   const parent=$('abilities-editor');parent.replaceChildren();
   for(let i=0;i<4;i++){
-    const ab=data.abilities?.[i]||{title:`ABILITY ${i+1}`,description:'',icon:'star'};
+    const ab=data.abilities?.[i]||{title:`ABILITY ${i+1}`,description:''};
     const el=document.createElement('div');el.className='ability-editor';
     const heading=document.createElement('h3');heading.textContent=`HIGHLIGHT ${String(i+1).padStart(2,'0')}`;
     const title=field('Name','input','title',ab.title);
     const desc=field('Description','textarea','description',ab.description);
-    const ico=field('Icon','select','icon',ab.icon,iconOptions);
-    el.append(heading,title,desc,ico);parent.append(el);
+    el.append(heading,title,desc);parent.append(el);
   }
 }
 function field(labelText,tag,key,value,options){
@@ -307,8 +377,33 @@ function field(labelText,tag,key,value,options){
   if(tag==='select')options.forEach(o=>{const option=document.createElement('option');option.value=o;option.textContent=o;input.append(option);});
   input.value=value; input.addEventListener('input',collectChanges);root.append(lab,input);return root;
 }
+function renderRatingControls(){
+  const parent=$('rating-editors');parent.replaceChildren();
+  const ratings=Array.isArray(data.ratings)?data.ratings:[];
+  for(let i=0;i<3;i++){
+    const r=ratings[i]||{label:['Power','Flexibility','Complexity'][i],value:null};
+    const row=document.createElement('div');row.className='rating-editor';
+    const label=document.createElement('div');label.className='field';
+    const labelText=document.createElement('label');labelText.textContent=`Attribute ${i+1}`;
+    const labelInput=document.createElement('input');labelInput.type='text';labelInput.maxLength=28;labelInput.value=r.label;labelInput.dataset.rating='label';
+    label.append(labelText,labelInput);
+    const value=document.createElement('div');value.className='field';
+    const valueLabel=document.createElement('label');valueLabel.textContent='Rating / 5';
+    const number=document.createElement('input');number.type='number';number.min=0;number.max=5;number.step=1;number.placeholder='—';number.value=r.value===null?'':r.value;number.dataset.rating='value';
+    value.append(valueLabel,number);row.append(label,value);parent.append(row);
+    labelInput.addEventListener('input',collectChanges);number.addEventListener('input',collectChanges);
+  }
+  updateInfoMode();
+}
+function updateInfoMode(){
+  const showRatings=$('info-mode').value==='ratings';
+  $('rating-editors').hidden=!showRatings;
+  $('summary-container').hidden=showRatings;
+}
 function fillControls(){
   $('display-name').value=data.title||'';$('kicker').value=data.kicker||'';$('tags').value=(data.tags||[]).join(', ');
+  $('info-mode').value=data.infoMode||'ratings';
+  renderRatingControls();
   $('summary').value=data.summary||'';$('quote').value=data.quote||'';$('role-tags').value=(data.roleTags||[]).join(', ');
   $('image-scale').value=data.scale??1;$('image-x').value=data.panX??0;$('image-y').value=data.panY??0;
   $('image-scale-value').textContent=`${Number(data.scale).toFixed(2)}×`;
@@ -329,11 +424,13 @@ async function switchPath(id){
   const next=pathways.find(p=>p.id===id);if(!next)return;
   currentPath=next;
   const [storedData,storedCss,baseCss,published]=await Promise.all([dbGet('profiles',id),dbGet('themes',id),bundledTheme(next),publishedProfile(id)]);
-  data=storedData&&Array.isArray(storedData.abilities)?storedData:published||defaultData(next);
+  const loaded=storedData&&Array.isArray(storedData.abilities)?storedData:published||defaultData(next);
+  data=normalizeProfile(loaded,next);
   themeCss=typeof storedCss==='string'?storedCss:baseCss;
   themeStyle.textContent=themeCss;$('theme-css').value=themeCss;
   $('pathway-select').value=id;fillControls();
   imageObject=null;paint();
+  void loadPathwayGlyph(next.id);
   await loadImage(data.image);
   modified=false;$('save-state').textContent=storedData?'Loaded local changes':'Loaded';
 }
@@ -378,7 +475,7 @@ async function importJson(file){
     const p=pathways.find(x=>x.id===blob.pathway);
     if(!p)throw new Error('This pathway is not in the current list.');
     await saveCurrent();await switchPath(p.id);
-    data={...defaultData(p),...blob.profile,pathway:p.id};
+    data=normalizeProfile(blob.profile,p);
     if(typeof blob.themeCss==='string'){themeCss=blob.themeCss;themeStyle.textContent=themeCss;$('theme-css').value=themeCss;}
     fillControls();await loadImage(data.image);markDirty();await saveCurrent();notice('Imported '+p.name+' data and its CSS.');
   }catch(e){notice('Import failed: '+e.message,true);}
@@ -392,6 +489,7 @@ async function init(){
   pathways.forEach(p=>{const option=document.createElement('option');option.value=p.id;option.textContent=p.name+' Pathway';$('pathway-select').append(option);});
   $('pathway-select').addEventListener('change',e=>switchPath(e.target.value));
   for(const id of ['display-name','kicker','tags','summary','quote','role-tags','image-scale','image-x','image-y'])$(id).addEventListener('input',collectChanges);
+  $('info-mode').addEventListener('change',()=>{updateInfoMode();collectChanges();});
   $('theme-css').addEventListener('input',e=>{themeCss=e.target.value;themeStyle.textContent=themeCss;markDirty();});
   $('image-upload').addEventListener('change',e=>{imageUploaded(e.target.files[0]);e.target.value='';});
   $('image-reset').addEventListener('click',()=>{$('image-scale').value=1;$('image-x').value=0;$('image-y').value=0;collectChanges();});

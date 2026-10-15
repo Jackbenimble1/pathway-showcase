@@ -30,11 +30,13 @@
             <div class="field"><label for="display-name">Display title</label><input id="display-name" maxlength="48" placeholder="SUN"></div>
             <div class="field"><label for="kicker">Small heading</label><input id="kicker" maxlength="65" placeholder="A PATH OF LIGHT"></div>
             <div class="field"><label for="tags">Descriptors <small>separate with commas</small></label><input id="tags" placeholder="Light, Purification, Order"></div>
-            <div class="field"><label for="summary">Overview <small>brief, non-spoiler</small></label><textarea id="summary" rows="5" placeholder="What a new practitioner should know..."></textarea></div>
+            <div class="field"><label for="info-mode">Information box format</label><select id="info-mode"><option value="ratings">Segmented ratings</option><option value="description">Text overview</option></select></div>
+            <div id="rating-editors"></div>
+            <div id="summary-container" class="field"><label for="summary">Overview <small>kept even when ratings are shown</small></label><textarea id="summary" rows="5" placeholder="What a new practitioner should know..."></textarea></div>
             <div class="field"><label for="quote">Short line / quotation</label><textarea id="quote" rows="2" placeholder="A short statement to accompany the portrait"></textarea></div>
             <div class="field"><label for="role-tags">Portrait-side labels <small>separate with commas</small></label><input id="role-tags" placeholder="Radiance, Purification, Resolve"></div>
           </div></details>
-          <details open class="edit-group"><summary>Featured abilities <span>02</span></summary><div class="group-fields"><p class="group-hint">Four highlights, not the full sequence progression. These are blank until you write them.</p><div id="abilities-editor"></div></div></details>
+          <details open class="edit-group"><summary>Featured abilities <span>02</span></summary><div class="group-fields"><p class="group-hint">Four player-facing highlights. Every icon uses the selected pathway’s fixed emblem.</p><div id="abilities-editor"></div></div></details>
           <details open class="edit-group"><summary>Character artwork <span>03</span></summary><div class="group-fields">
             <div class="upload-zone"><input type="file" id="image-upload" accept="image/png,image/jpeg,image/webp"><label for="image-upload"><span class="upload-icon">↥</span><strong>Choose artwork</strong><small>PNG, JPG or WebP; stored locally in this browser</small></label></div>
             <div class="field"><label for="image-scale">Zoom <output id="image-scale-value"></output></label><input type="range" id="image-scale" min="0.5" max="2.5" step="0.01" value="1"></div>
